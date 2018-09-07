@@ -30,7 +30,7 @@ public class Othello extends JFrame implements ActionListener {
 		setSize(500, 500);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		//grid container
+		// grid container
 		GridLayout grid = new GridLayout(8, 8);
 		setLayout(grid);
 
@@ -127,4 +127,194 @@ public class Othello extends JFrame implements ActionListener {
 		}
 	}
 
-	
+	public boolean checkValidityInDirection(int direction, int i, int j) {
+		int initI, initJ, incrI, incrJ;
+		boolean atleastOneFound = false;
+
+		switch (direction) {
+		case NORTH:
+			incrI = -1;
+			incrJ = 0;
+			break;
+		case NE:
+			incrI = -1;
+			incrJ = +1;
+			break;
+		case EAST:
+			incrI = 0;
+			incrJ = +1;
+			break;
+		case SE:
+			incrI = +1;
+			incrJ = +1;
+			break;
+		case SOUTH:
+			incrI = +1;
+			incrJ = 0;
+			break;
+		case SW:
+			incrI = +1;
+			incrJ = -1;
+			break;
+		case WEST:
+			incrI = 0;
+			incrJ = -1;
+			break;
+		case NW:
+			incrI = -1;
+			incrJ = -1;
+			break;
+		default:
+			incrI = 0;
+			incrJ = 0;
+		}
+
+		initI = i + incrI;
+		initJ = j + incrJ;
+		while (initI >= 0 && initI <= 7 && initJ >= 0 && initJ <= 7
+				&& button[initI][initJ].getBackground() == (blacksTurn ? Color.white : Color.black)) {
+			initI += incrI;
+			initJ += incrJ;
+			atleastOneFound = true;
+		}
+
+		if (initI >= 0 && initI <= 7 && initJ >= 0 && initJ <= 7 && atleastOneFound
+				&& button[initI][initJ].getBackground() == (blacksTurn ? Color.black : Color.white)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		JButton source = (JButton) e.getSource();
+
+		if (source.getBackground() == (blacksTurn ? Color.blue : Color.red)) {
+			// find the button
+			int foundI = 0, foundJ = 0;
+
+			for (int i = 0; i <= 7; i++) {
+				for (int j = 0; j <= 7; j++) {
+					if (button[i][j] == source) {
+						foundI = i;
+						foundJ = j;
+						break;
+					}
+				}
+			}
+
+			// make the move
+			makeMove(foundI, foundJ);
+
+			// flip next turn
+			blacksTurn = !blacksTurn;
+			int validMoves = markValidMoves();
+
+			if (validMoves == 0) {
+				blacksTurn = !blacksTurn;
+				validMoves = markValidMoves();
+
+				if (validMoves == 0) {
+					declareWinner();
+					dispose();
+				}
+			}
+		}
+	}
+
+	public void makeMove(int i, int j) {
+		rePaintInDirection(NORTH, i, j);
+		rePaintInDirection(NE, i, j);
+		rePaintInDirection(EAST, i, j);
+		rePaintInDirection(SE, i, j);
+		rePaintInDirection(SOUTH, i, j);
+		rePaintInDirection(SW, i, j);
+		rePaintInDirection(WEST, i, j);
+		rePaintInDirection(NW, i, j);
+
+		button[i][j].setBackground(blacksTurn ? Color.black : Color.white);
+	}
+
+	public void rePaintInDirection(int direction, int i, int j) {
+		int initI, initJ, incrI, incrJ;
+		boolean atleastOneFound = false;
+
+		switch (direction) {
+		case NORTH:
+			incrI = -1;
+			incrJ = 0;
+			break;
+		case NE:
+			incrI = -1;
+			incrJ = +1;
+			break;
+		case EAST:
+			incrI = 0;
+			incrJ = +1;
+			break;
+		case SE:
+			incrI = +1;
+			incrJ = +1;
+			break;
+		case SOUTH:
+			incrI = +1;
+			incrJ = 0;
+			break;
+		case SW:
+			incrI = +1;
+			incrJ = -1;
+			break;
+		case WEST:
+			incrI = 0;
+			incrJ = -1;
+			break;
+		case NW:
+			incrI = -1;
+			incrJ = -1;
+			break;
+		default:
+			incrI = 0;
+			incrJ = 0;
+		}
+
+		initI = i + incrI;
+		initJ = j + incrJ;
+		while (initI >= 0 && initI <= 7 && initJ >= 0 && initJ <= 7
+				&& button[initI][initJ].getBackground() == (blacksTurn ? Color.white : Color.black)) {
+			initI += incrI;
+			initJ += incrJ;
+			atleastOneFound = true;
+		}
+
+		if (initI >= 0 && initI <= 7 && initJ >= 0 && initJ <= 7 && atleastOneFound
+				&& button[initI][initJ].getBackground() == (blacksTurn ? Color.black : Color.white)) {
+			// paint
+			while (initI != i || initJ != j) {
+				initI -= incrI;
+				initJ -= incrJ;
+
+				button[initI][initJ].setBackground(blacksTurn ? Color.black : Color.white);
+			}
+		}
+	}
+
+	public void declareWinner() {
+		int blacks = 0, whites = 0;
+
+		for (int i = 0; i <= 7; i++) {
+			for (int j = 0; j <= 7; j++) {
+				if (button[i][j].getBackground() == Color.black) {
+					blacks++;
+				} else if (button[i][j].getBackground() == Color.white) {
+					whites++;
+				}
+			}
+		}
+
+		if (blacks > whites) {
+			JOptionPane.showMessageDialog(null, "Black wins");
+		} else {
+			JOptionPane.showMessageDialog(null, "White wins");
+		}
+	}
+}
