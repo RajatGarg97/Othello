@@ -11,10 +11,16 @@ is to have Java installed on your machine.
 
 #HOW TO PLAY
 
+
+      https://github.com/RajatGarg97/Othello/blob/master/Capture1.PNG
+  
 The above shown image is of the game after running the code.
 
 Its Blacks turn by default and the blue squares are the possible moves Black can make.
 
+
+      https://github.com/RajatGarg97/Othello/blob/master/Capture2.PNG
+    
 After Black makes a move the blue squares disappear and red ones appear. Now its White's chance 
 
 to make a move and reds are the possible moves White can make. 
