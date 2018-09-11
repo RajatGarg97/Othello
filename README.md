@@ -1,5 +1,4 @@
-###OTHELLO
-
+OTHELLO
 
 Hola guys!! I have created a small game named Othello, also called Reversi.
 
@@ -10,8 +9,7 @@ This game is entirely programmed in Java and the only prerequisite to play this 
 is to have Java installed on your machine.
 
 
-##HOW TO PLAY
-
+#HOW TO PLAY
 
 The above shown image is of the game after running the code.
 
@@ -26,4 +24,4 @@ The aim of the player in this game is to make maximum squares of the colour he/s
 The game terminates when there are no possible moves for both the colours.
 
 
-##LET'S PLAY!!
+#LET'S PLAY!!
